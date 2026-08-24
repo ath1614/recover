@@ -1,0 +1,36 @@
+{
+  "name": "recover",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "dev:api": "wrangler dev --port 8787",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "build:deploy": "node scripts/build.mjs"
+  },
+  "dependencies": {
+    "hono": "^4.13.14",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261029.1",
+    "@types/node": "^24.19.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "esbuild": "^0.28.2",
+    "typescript": "~7.0.2",
+    "vite": "^8.3.5",
+    "vitest": "^5.0.5",
+    "wrangler": "^4.156.0"
+  },
+  "description": "A dunning desk: failed subscription payments, a retry ladder, and the recovery rate that proves it worked.",
+  "author": "Atharv Soni",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/ath1614/recover.git" }
+}

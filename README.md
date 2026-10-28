@@ -67,3 +67,7 @@ processor, honour its decline-code semantics, and send the customer an email bef
 ## License
 
 MIT. Built by [Atharv Soni](https://github.com/ath1614).
+
+## Learn it
+
+New to this codebase? [GUIDE.md](GUIDE.md) explains it in plain English, from the idea to the tests.

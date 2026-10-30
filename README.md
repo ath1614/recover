@@ -6,7 +6,7 @@ A dunning desk for subscription billing. Every failed renewal lands with its dec
 down a four-step retry ladder, and is measured by the one number that matters: rupees recovered
 over rupees resolved.
 
-Live: **https://site-5c739fdc264c443c8d3ddf6fc15d8d1e.freebuff.page**
+Live: **https://recover.ath1614.workers.dev**
 Demo: **demo@recover.app / demo1234** (or press “Look around with the demo desk”)
 
 ## Why

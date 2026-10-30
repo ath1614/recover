@@ -10,4 +10,4 @@ not_found_handling = "single-page-application"
 [[d1_databases]]
 binding = "DB"
 database_name = "recover"
-database_id = "00000000-0000-0000-0000-000000000000"
+database_id = "f2531b67-2fb6-4d86-8a27-df98593f9967"

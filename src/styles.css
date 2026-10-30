@@ -12,6 +12,61 @@
   --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
   --mono: "SFMono-Regular", ui-monospace, "IBM Plex Mono", Menlo, monospace;
 }
+/* Dark is the same desk at night: ink paper, brighter oxblood, same rules. */
+html[data-theme="dark"] {
+  --paper: #14120f;
+  --panel: #1c1915;
+  --ink: #f1eade;
+  --muted: #a89c8b;
+  --line: #f1eade1a;
+  --line-strong: #f1eade33;
+  --accent: #e2704e;
+  --good: #83c4a1;
+  --bad: #e08468;
+}
+
+html[data-theme="dark"] body {
+  background:
+    radial-gradient(900px 460px at 82% -8%, #e2704e14, transparent 62%),
+    var(--paper);
+}
+
+html[data-theme="dark"] .receipt {
+  box-shadow: 0 18px 40px #00000066, 0 1px 0 #ffffff0d inset;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: none;
+  border: 1px solid var(--line-strong);
+  padding: 8px 11px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.theme-toggle:hover {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+.theme-toggle span[aria-hidden] {
+  font-size: 12px;
+  line-height: 1;
+}
+
+@media (max-width: 720px) {
+  .theme-toggle__label {
+    display: none;
+  }
+}
+
 
 *,
 *::before,
@@ -946,4 +1001,16 @@ h2 {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
   }
+}
+
+.topbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.auth__tools {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
 }

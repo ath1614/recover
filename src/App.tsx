@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { ThemeButton, useTheme, type Theme } from './lib/theme';
 import type { DeskEvent, DeskSummary, Invoice } from './core/recovery';
 import { formatMoney, hoursUntil, ladderLabel } from './core/recovery';
 
@@ -57,7 +58,17 @@ function Sparkline({ series }: { series: number[] }) {
   );
 }
 
-function Landing({ onStart, signedIn }: { onStart: () => void; signedIn: boolean }) {
+function Landing({
+  onStart,
+  signedIn,
+  theme,
+  toggleTheme,
+}: {
+  onStart: () => void;
+  signedIn: boolean;
+  theme: Theme;
+  toggleTheme: () => void;
+}) {
   return (
     <div className="landing">
       <header className="topbar">
@@ -69,9 +80,12 @@ function Landing({ onStart, signedIn }: { onStart: () => void; signedIn: boolean
           <a href="#math">The maths</a>
           <a href="#limits">Limits</a>
         </nav>
-        <button className="button button--small" onClick={onStart}>
-          {signedIn ? 'Open your desk' : 'Open the desk'} <span aria-hidden="true">→</span>
-        </button>
+        <div className="topbar__actions">
+          <ThemeButton theme={theme} toggle={toggleTheme} />
+          <button className="button button--small" onClick={onStart}>
+            {signedIn ? 'Open your desk' : 'Open the desk'} <span aria-hidden="true">→</span>
+          </button>
+        </div>
       </header>
 
       <main>
@@ -214,7 +228,21 @@ function Landing({ onStart, signedIn }: { onStart: () => void; signedIn: boolean
 
 /* --------------------------------------------------------------------- auth */
 
-function Auth({ mode, onDone, onSwitch, onBack }: { mode: 'signin' | 'signup'; onDone: (desk: Desk) => void; onSwitch: (mode: 'signin' | 'signup') => void; onBack: () => void }) {
+function Auth({
+  mode,
+  onDone,
+  onSwitch,
+  onBack,
+  theme,
+  toggleTheme,
+}: {
+  mode: 'signin' | 'signup';
+  onDone: (desk: Desk) => void;
+  onSwitch: (mode: 'signin' | 'signup') => void;
+  onBack: () => void;
+  theme: Theme;
+  toggleTheme: () => void;
+}) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -270,6 +298,9 @@ function Auth({ mode, onDone, onSwitch, onBack }: { mode: 'signin' | 'signup'; o
       </aside>
 
       <div className="auth__panel">
+        <div className="auth__tools">
+          <ThemeButton theme={theme} toggle={toggleTheme} />
+        </div>
         <div className="tabs" role="tablist">
           <button aria-selected={mode === 'signin'} role="tab" onClick={() => onSwitch('signin')}>
             Sign in
@@ -328,7 +359,19 @@ function Auth({ mode, onDone, onSwitch, onBack }: { mode: 'signin' | 'signup'; o
 
 /* --------------------------------------------------------------------- desk */
 
-function DeskView({ desk, onUpdate, onSignOut }: { desk: Desk; onUpdate: (desk: Desk) => void; onSignOut: () => void }) {
+function DeskView({
+  desk,
+  onUpdate,
+  onSignOut,
+  theme,
+  toggleTheme,
+}: {
+  desk: Desk;
+  onUpdate: (desk: Desk) => void;
+  onSignOut: () => void;
+  theme: Theme;
+  toggleTheme: () => void;
+}) {
   const [busyId, setBusyId] = useState<string | null>(null);
   const [note, setNote] = useState<string | null>(null);
 
@@ -370,6 +413,7 @@ function DeskView({ desk, onUpdate, onSignOut }: { desk: Desk; onUpdate: (desk: 
           recover<span className="mark__dot">.</span>
         </span>
         <div className="deskbar__right">
+          <ThemeButton theme={theme} toggle={toggleTheme} />
           <span className="deskbar__who">{desk.user.name}</span>
           <button className="link-button" onClick={onSignOut}>
             Sign out
@@ -519,6 +563,7 @@ export default function App() {
   const [view, setView] = useState<'landing' | 'auth' | 'desk'>('landing');
   const [mode, setMode] = useState<'signin' | 'signup'>('signin');
   const [desk, setDesk] = useState<Desk | null>(null);
+  const { theme, toggle: toggleTheme } = useTheme();
 
   useEffect(() => {
     fetch('/api/me')
@@ -542,7 +587,7 @@ export default function App() {
   };
 
   if (view === 'desk' && desk) {
-    return <DeskView desk={desk} onUpdate={setDesk} onSignOut={signOut} />;
+    return <DeskView desk={desk} onUpdate={setDesk} onSignOut={signOut} theme={theme} toggleTheme={toggleTheme} />;
   }
 
   if (view === 'auth') {
@@ -551,6 +596,8 @@ export default function App() {
         mode={mode}
         onSwitch={setMode}
         onBack={() => setView('landing')}
+        theme={theme}
+        toggleTheme={toggleTheme}
         onDone={(next) => {
           setDesk(next);
           setView('desk');
@@ -559,5 +606,12 @@ export default function App() {
     );
   }
 
-  return <Landing signedIn={Boolean(desk)} onStart={() => setView(desk ? 'desk' : 'auth')} />;
+  return (
+    <Landing
+      signedIn={Boolean(desk)}
+      onStart={() => setView(desk ? 'desk' : 'auth')}
+      theme={theme}
+      toggleTheme={toggleTheme}
+    />
+  );
 }
